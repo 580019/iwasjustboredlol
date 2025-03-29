@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PayPal Dashboard</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+    
+    body {
+      background-color: #f5f5f5;
+    }
+    
+    .navbar {
+      background-color: #1e3799;
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: white;
+    }
+    
+    .nav-items {
+      display: flex;
+      align-items: center;
+    }
+    
+    .nav-item {
+      margin: 0 15px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+    
+    .logo {
+      color: white;
+      font-size: 24px;
+      font-weight: bold;
+      margin-right: 20px;
+    }
+    
+    .right-section {
+      display: flex;
+      align-items: center;
+    }
+    
+    .notification {
+      position: relative;
+      margin-right: 15px;
+      cursor: pointer;
+    }
+    
+    .notification-badge {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background-color: red;
+      color: white;
+      font-size: 12px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    .add-bank-card {
+      background-color: white;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .info-icon {
+      width: 30px;
+      height: 30px;
+      background-color: #1e3799;
+      border-radius: 50%;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 15px;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+    
+    .add-bank-text h3 {
+      font-size: 18px;
+      margin-bottom: 5px;
+      color: #333;
+    }
+    
+    .add-bank-text p {
+      color: #666;
+      font-size: 14px;
+    }
+    
+    .balance-card {
+      background-color: white;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      position: relative;
+    }
+    
+    .more-options {
+      position: absolute;
+      right: 15px;
+      top: 15px;
+      font-size: 24px;
+      cursor: pointer;
+      color: #555;
+    }
+    
+    .balance-title {
+      font-size: 16px;
+      color: #333;
+      margin-bottom: 15px;
+    }
+    
+    .balance-amount {
+      font-size: 36px;
+      font-weight: bold;
+      color: #1a1a1a;
+      margin-bottom: 5px;
+    }
+    
+    .balance-subtitle {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 20px;
+    }
+    
+    .transfer-btn {
+      background-color: #1e3799;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 30px;
+      font-weight: 500;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    
+    .recent-activity {
+      margin-bottom: 20px;
+      background-color: white;
+      border-radius: 8px;
+      padding: 20px;
+    }
+    
+    .recent-activity h3 {
+      font-size: 20px;
+      margin-bottom: 15px;
+      color: #333;
+    }
+    
+    .recent-activity p {
+      color: #555;
+      line-height: 1.5;
+      margin-bottom: 15px;
+    }
+    
+    .recent-activity-intro {
+      color: #555;
+      line-height: 1.5;
+      margin-bottom: 15px;
+    }
+    
+    .show-all {
+      color: #0070ba;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    
+    .quick-actions {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 30px;
+    }
+    
+    .action-btn {
+      background-color: #1e3799;
+      color: white;
+      border: none;
+      padding: 12px 0;
+      border-radius: 4px;
+      font-weight: 500;
+      cursor: pointer;
+      width: 48%;
+      font-size: 16px;
+    }
+    
+    .small-actions {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 30px;
+    }
+    
+    .small-action {
+      background-color: white;
+      border-radius: 8px;
+      padding: 20px;
+      width: 30%;
+      text-align: center;
+      cursor: pointer;
+    }
+    
+    .small-action-icon {
+      color: #1e3799;
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    
+    .small-action p {
+      color: #333;
+      font-size: 14px;
+      line-height: 1.3;
+    }
+    
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    
+    .section-title {
+      font-size: 20px;
+      color: #333;
+    }
+    
+    .section-more {
+      font-size: 24px;
+      cursor: pointer;
+      color: #555;
+    }
+    
+    .search-action {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .search-icon {
+      width: 60px;
+      height: 60px;
+      background-color: #1e3799;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+    
+    .search-icon span {
+      color: white;
+      font-size: 24px;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 100;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .modal-content {
+      background-color: white;
+      padding: 30px;
+      border-radius: 8px;
+      width: 100%;
+      max-width: 400px;
+      margin: 0 20px;
+    }
+    
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .modal-title {
+      font-size: 20px;
+      font-weight: bold;
+    }
+    
+    .close-btn {
+      font-size: 24px;
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+    
+    .modal-body {
+      margin-bottom: 20px;
+    }
+    
+    .form-group {
+      margin-bottom: 15px;
+    }
+    
+    .form-label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+    
+    .form-input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+    }
+    
+    .modal-btn {
+      background-color: #1e3799;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+    
+    /* Activity record styles */
+    .activity-list {
+      list-style: none;
+    }
+    
+    .activity-item {
+      padding: 15px 0;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      align-items: center;
+    }
+    
+    .activity-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 15px;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    
+    .activity-send {
+      background-color: #ffebee;
+      color: #e53935;
+    }
+    
+    .activity-request {
+      background-color: #e8f5e9;
+      color: #43a047;
+    }
+    
+    .activity-content {
+      flex: 1;
+      min-width: 0;
+    }
+    
+    .activity-title {
+      font-weight: 500;
+      margin-bottom: 5px;
+      color: #333;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .activity-details {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .activity-date {
+      color: #777;
+      font-size: 13px;
+    }
+    
+    .activity-amount {
+      font-weight: 600;
+    }
+    
+    .activity-amount.send {
+      color: #e53935;
+    }
+    
+    .activity-amount.request {
+      color: #43a047;
+    }
+    
+    .no-activity {
+      padding: 20px 0;
+      text-align: center;
+      color: #777;
+    }
+    
+    .activity-note {
+      margin-top: 5px;
+      color: #666;
+      font-size: 14px;
+      font-style: italic;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    /* Mobile Responsive Styles */
+    @media screen and (max-width: 768px) {
+      .nav-item {
+        margin: 0 10px;
+        font-size: 14px;
+      }
+      
+      .logo {
+        margin-right: 10px;
+      }
+      
+      .right-section {
+        font-size: 14px;
+      }
+      
+      .balance-amount {
+        font-size: 28px;
+      }
+      
+      .container {
+        padding: 15px;
+      }
+      
+      .small-actions {
+        flex-wrap: wrap;
+      }
+      
+      .small-action {
+        width: 48%;
+        margin-bottom: 10px;
+      }
+      
+      /* Show only important nav items on smaller screens */
+      .nav-item:nth-child(3),
+      .nav-item:nth-child(4),
+      .nav-item:nth-child(5) {
+        display: none;
+      }
+    }
+    
+    @media screen and (max-width: 480px) {
+      .nav-item {
+        margin: 0 5px;
+        font-size: 12px;
+      }
+      
+      .navbar {
+        padding: 10px;
+      }
+      
+      .balance-amount {
+        font-size: 24px;
+      }
+      
+      .transfer-btn {
+        padding: 10px 15px;
+        font-size: 12px;
+      }
+      
+      .small-action {
+        width: 100%;
+        margin-bottom: 10px;
+      }
+      
+      .action-btn {
+        font-size: 14px;
+      }
+      
+      .activity-title,
+      .activity-details {
+        font-size: 14px;
+      }
+      
+      .activity-date {
+        font-size: 12px;
+      }
+      
+      /* Adjust mobile menu further */
+      .nav-item:not(:first-child) {
+        display: none;
+      }
+      
+      /* Add a mobile menu toggle button */
+      .mobile-menu-toggle {
+        display: block;
+        font-size: 20px;
+        margin-left: auto;
+        margin-right: 15px;
+        cursor: pointer;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <div class="navbar">
+    <div class="nav-items">
+      <div class="logo">P</div>
+      <div class="nav-item">Home</div>
+      <div class="nav-item">Send and Request</div>
+      <div class="nav-item">Wallet</div>
+      <div class="nav-item">Activity</div>
+      <div class="nav-item">Help</div>
+    </div>
+    <div class="right-section">
+      <div class="notification">
+        <span>🔔</span>
+        <span class="notification-badge">3</span>
+      </div>
+      <span style="margin-right: 15px;">⚙️</span>
+      <span>LOG OUT</span>
+    </div>
+  </div>
+  
+  <!-- Main content -->
+  <div class="container">
+    <!-- Add bank card -->
+    <div class="add-bank-card">
+      <div class="info-icon">i</div>
+      <div class="add-bank-text">
+        <h3>Add your bank</h3>
+        <p>When you get paid, transfer it securely to your bank.</p>
+      </div>
+    </div>
+    
+    <!-- Balance card -->
+    <div class="balance-card">
+      <div class="more-options">⋮</div>
+      <h3 class="balance-title">PayPal balance</h3>
+      <h1 class="balance-amount" id="balanceAmount">$0.00 USD</h1>
+      <p class="balance-subtitle">Estimated total of all currencies</p>
+      <button class="transfer-btn">Transfer Funds</button>
+    </div>
+    
+    <!-- Recent activity -->
+    <div class="recent-activity">
+      <h3>Recent activity</h3>
+      <p class="recent-activity-intro" id="activityIntro">See when money comes in, and when it goes out. You'll find your recent PayPal activity here.</p>
+      
+      <ul class="activity-list" id="activityList">
+        <!-- Activity items will be added here dynamically -->
+      </ul>
+      
+      <a href="#" class="show-all">Show all</a>
+    </div>
+    
+    <!-- Quick action buttons -->
+    <div class="quick-actions">
+      <button class="action-btn" id="sendBtn">Send</button>
+      <button class="action-btn" id="requestBtn">Request</button>
+    </div>
+    
+    <!-- Small actions -->
+    <div class="small-actions">
+      <div class="small-action">
+        <div class="small-action-icon">📄</div>
+        <p>Create an invoice</p>
+      </div>
+      <div class="small-action">
+        <div class="small-action-icon">💳</div>
+        <p>Add card or bank</p>
+      </div>
+      <div class="small-action">
+        <div class="small-action-icon">⋮</div>
+        <p>More</p>
+      </div>
+    </div>
+    
+    <!-- Send again section -->
+    <div class="section-header">
+      <h3 class="section-title">Send again</h3>
+      <div class="section-more">⋮</div>
+    </div>
+    
+    <div class="small-actions">
+      <div class="search-action">
+        <div class="search-icon">
+          <span>🔍</span>
+        </div>
+        <p>Search</p>
+      </div>
+    </div>
+    
+    <!-- Banks and cards section -->
+    <div class="section-header">
+      <h3 class="section-title">Banks and cards</h3>
+      <div class="section-more">⋮</div>
+    </div>
+  </div>
+
+  <!-- Send Modal -->
+  <div class="modal" id="sendModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Send Money</h2>
+        <button class="close-btn" id="closeSendModal">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Email or mobile number</label>
+          <input type="text" class="form-input" id="sendEmail" placeholder="Email or mobile number">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Amount</label>
+          <input type="text" class="form-input" id="sendAmount" placeholder="$0.00">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Note (optional)</label>
+          <input type="text" class="form-input" id="sendNote" placeholder="Add a note">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="modal-btn" id="sendSubmitBtn">Next</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Request Modal -->
+  <div class="modal" id="requestModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Request Money</h2>
+        <button class="close-btn" id="closeRequestModal">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Email or mobile number</label>
+          <input type="text" class="form-input" id="requestEmail" placeholder="Email or mobile number">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Amount</label>
+          <input type="text" class="form-input" id="requestAmount" placeholder="$0.00">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Note (optional)</label>
+          <input type="text" class="form-input" id="requestNote" placeholder="What's this for?">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="modal-btn" id="requestSubmitBtn">Request</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+ let balance = 0;
+ balance += 5567.43;
+
+
+    let activities = [];
+    
+    function formatCurrency(amount) {
+
+  return '$' + formatWithCommas(parseFloat(amount)) + ' USD';
+}
+    
+
+
+
+function formatWithCommas(number) {
+  let parts = number.toFixed(2).split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  return parts.join('.');
+}
+
+    function formatDate(date) {
+      const options = { month: 'short', day: 'numeric' };
+      return date.toLocaleDateString('en-US', options);
+    }
+    
+    function updateBalanceDisplay() {
+  document.getElementById('balanceAmount').textContent = formatCurrency(balance);
+}
+updateBalanceDisplay();
+
+    function addActivity(type, recipient, amount, note) {
+      const today = new Date();
+      
+
+      const activity = {
+        id: Date.now(),
+        type: type,
+        recipient: recipient,
+        amount: parseFloat(amount),
+        note: note || '',
+        date: today
+      };
+      
+
+      activities.unshift(activity);
+      
+ 
+      if (type === 'send') {
+        balance -= activity.amount;
+      } else if (type === 'request') {
+
+        balance += activity.amount;
+      }
+      
+      updateBalanceDisplay();
+      renderActivities();
+    }
+    
+
+    function renderActivities() {
+      const activityList = document.getElementById('activityList');
+      const activityIntro = document.getElementById('activityIntro');
+      
+
+      activityList.innerHTML = '';
+      
+      if (activities.length === 0) {
+        activityIntro.style.display = 'block';
+        return;
+      }
+      
+
+      activityIntro.style.display = 'none';
+      
+
+      activities.forEach(activity => {
+        const li = document.createElement('li');
+        li.className = 'activity-item';
+        
+        let iconSymbol, iconClass, amountPrefix, amountClass;
+        
+        if (activity.type === 'send') {
+          iconSymbol = '↑';
+          iconClass = 'activity-send';
+          amountPrefix = '-';
+          amountClass = 'send';
+        } else if (activity.type === 'request') {
+          iconSymbol = '↓';
+          iconClass = 'activity-request';
+          amountPrefix = '+';
+          amountClass = 'request';
+        } else if (activity.type === 'request-received') {
+          iconSymbol = '↓';
+          iconClass = 'activity-request';
+          amountPrefix = '+';
+          amountClass = 'request';
+        }
+        
+        li.innerHTML = `
+          <div class="activity-icon ${iconClass}">${iconSymbol}</div>
+          <div class="activity-content">
+            <div class="activity-title">
+              ${activity.type === 'send' ? 'Sent to' : activity.type === 'request' ? 'Received from' : 'Received from'} ${activity.recipient}
+            </div>
+            <div class="activity-details">
+              <span class="activity-date">${formatDate(activity.date)}</span>
+              <span class="activity-amount ${amountClass}">${amountPrefix}${formatCurrency(activity.amount)}</span>
+            </div>
+            ${activity.note ? `<div class="activity-note">"${activity.note}"</div>` : ''}
+          </div>
+        `;
+        
+        activityList.appendChild(li);
+      });
+    }
+    
+
+    function formatNumberInput(input) {
+
+      let value = input.value.replace(/[^\d.]/g, '');
+      
+
+      const decimalPoints = value.match(/\./g);
+      if (decimalPoints && decimalPoints.length > 1) {
+        const firstDecimalIndex = value.indexOf('.');
+        value = value.slice(0, firstDecimalIndex + 1) + value.slice(firstDecimalIndex + 1).replace(/\./g, '');
+      }
+
+      if (value.includes('.')) {
+        const parts = value.split('.');
+        if (parts[1].length > 2) {
+          parts[1] = parts[1].slice(0, 2);
+          value = parts.join('.');
+        }
+      }
+      
+      input.value = value ? '$' + value : '';
+    }
+    
+
+    const sendBtn = document.getElementById('sendBtn');
+    const sendModal = document.getElementById('sendModal');
+    const closeSendModal = document.getElementById('closeSendModal');
+    const sendSubmitBtn = document.getElementById('sendSubmitBtn');
+    
+    sendBtn.addEventListener('click', function() {
+      sendModal.style.display = 'flex';
+    });
+    
+    closeSendModal.addEventListener('click', function() {
+      sendModal.style.display = 'none';
+    });
+    
+
+    const sendAmount = document.getElementById('sendAmount');
+    sendAmount.addEventListener('input', function() {
+      formatNumberInput(this);
+    });
+    
+    sendSubmitBtn.addEventListener('click', function() {
+      const recipient = document.getElementById('sendEmail').value;
+      const amount = document.getElementById('sendAmount').value.replace('$', '');
+      const note = document.getElementById('sendNote').value;
+      
+      if (recipient && amount) {
+        addActivity('send', recipient, amount, note);
+        
+
+        document.getElementById('sendEmail').value = '';
+        document.getElementById('sendAmount').value = '';
+        document.getElementById('sendNote').value = '';
+        
+        sendModal.style.display = 'none';
+      }
+    });
+    
+
+    const requestBtn = document.getElementById('requestBtn');
+    const requestModal = document.getElementById('requestModal');
+    const closeRequestModal = document.getElementById('closeRequestModal');
+    const requestSubmitBtn = document.getElementById('requestSubmitBtn');
+    
+    requestBtn.addEventListener('click', function() {
+      requestModal.style.display = 'flex';
+    });
+    
+    closeRequestModal.addEventListener('click', function() {
+      requestModal.style.display = 'none';
+    });
+    
+
+    const requestAmount = document.getElementById('requestAmount');
+    requestAmount.addEventListener('input', function() {
+      formatNumberInput(this);
+    });
+    
+    requestSubmitBtn.addEventListener('click', function() {
+      const recipient = document.getElementById('requestEmail').value;
+      const amount = document.getElementById('requestAmount').value.replace('$', '');
+      const note = document.getElementById('requestNote').value;
+      
+      if (recipient && amount) {
+        addActivity('request', recipient, amount, note);
+        
+
+        document.getElementById('requestEmail').value = '';
+        document.getElementById('requestAmount').value = '';
+        document.getElementById('requestNote').value = '';
+        
+        requestModal.style.display = 'none';
+      }
+    });
+    
+    window.addEventListener('click', function(event) {
+      if (event.target === sendModal) {
+        sendModal.style.display = 'none';
+      }
+      if (event.target === requestModal) {
+        requestModal.style.display = 'none';
+      }
+    });
+    window.addEventListener('resize', function() {
+    });
+    
+ 
+    updateBalanceDisplay();
+    renderActivities();
+
+    
+
+function saveDataToLocalStorage() {
+
+  localStorage.setItem('paypalBalance', balance.toString());
+  
+
+  localStorage.setItem('paypalActivities', JSON.stringify(activities));
+}
+
+
+function loadDataFromLocalStorage() {
+
+  const savedBalance = localStorage.getItem('paypalBalance');
+  if (savedBalance !== null) {
+    balance = parseFloat(savedBalance);
+  }
+  
+
+  const savedActivities = localStorage.getItem('paypalActivities');
+  if (savedActivities !== null) {
+    activities = JSON.parse(savedActivities);
+    
+
+    activities.forEach(activity => {
+      activity.date = new Date(activity.date);
+    });
+  }
+}
+
+
+function addActivity(type, recipient, amount, note) {
+  const today = new Date();
+  
+
+  const activity = {
+    id: Date.now(),
+    type: type,
+    recipient: recipient,
+    amount: parseFloat(amount),
+    note: note || '',
+    date: today
+  };
+  
+
+  activities.unshift(activity); 
+  
+
+  if (type === 'send') {
+    balance -= activity.amount;
+  } else if (type === 'request') {
+
+    balance += activity.amount;
+  }
+  
+ 
+  saveDataToLocalStorage();
+  
+  updateBalanceDisplay();
+  renderActivities();
+}
+
+
+document.addEventListener('DOMContentLoaded', function() {
+  loadDataFromLocalStorage();
+  updateBalanceDisplay();
+  renderActivities();
+});
+  </script>
+</body>
+</html>
